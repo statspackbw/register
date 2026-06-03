@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StatsPack — Africa Data Analytics Training Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+
+<!-- ============================================================
+  EmailJS SDK v4 — handles sending form data to your email
+============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#F0F4F8;
+  color:#1A2332;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* ===== DESIGN TOKENS ===== */
+:root{
+  --teal:#2BB5AC;
+  --teal-bright:#3EC9C0;
+  --teal-dim:#1E9990;
+  --teal-glow:rgba(43,181,172,0.18);
+  --teal-soft:rgba(43,181,172,0.1);
+  --teal-pale:rgba(43,181,172,0.06);
+  --coral:#E8654A;
+  --coral-soft:rgba(232,101,74,0.1);
+  --navy:#1A2332;
+  --navy-mid:#253347;
+  --navy-light:#3A4F6A;
+  --text-main:#1A2332;
+  --text-mid:#3A4F6A;
+  --text-muted:#6B839A;
+  --text-soft:#9BB0C4;
+  --white:#FFFFFF;
+  --bg:#F0F4F8;
+  --bg-card:#FFFFFF;
+  --bg-raised:#F7FAFC;
+  --border:#D8E4EE;
+  --border-teal:rgba(43,181,172,0.3);
+  --error:#D94B4B;
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:22px;
+  --shadow-sm:0 1px 4px rgba(26,35,50,0.06),0 2px 8px rgba(26,35,50,0.04);
+  --shadow-md:0 4px 16px rgba(26,35,50,0.08),0 1px 4px rgba(26,35,50,0.05);
+  --shadow-lg:0 12px 40px rgba(26,35,50,0.12),0 4px 12px rgba(26,35,50,0.07);
+}
+
+/* ===== ANIMATED BACKGROUND SCENE ===== */
+.scene-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.scene-bg::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 5% 10%,rgba(43,181,172,0.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 95% 85%,rgba(232,101,74,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 50%,rgba(43,181,172,0.04) 0%,transparent 70%);
+}
+.scene-bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(43,181,172,0.18) 1px,transparent 1px);
+  background-size:32px 32px;opacity:0.5;
+}
+.shape{position:absolute;border-radius:50%;filter:blur(60px);animation:shapeFloat 10s ease-in-out infinite}
+.shape-1{width:500px;height:500px;background:rgba(43,181,172,0.1);top:-150px;left:-150px;animation-delay:0s}
+.shape-2{width:350px;height:350px;background:rgba(232,101,74,0.07);bottom:-80px;right:-80px;animation-delay:-4s}
+.shape-3{width:200px;height:200px;background:rgba(43,181,172,0.07);top:40%;right:15%;animation-delay:-7s}
+@keyframes shapeFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-25px) scale(1.04)}
+}
+.particles{position:absolute;inset:0}
+.particle{
+  position:absolute;border-radius:50%;background:var(--teal);
+  opacity:0;animation:particleRise 7s ease-in infinite;
+}
+@keyframes particleRise{
+  0%{opacity:0;transform:translateY(0) scale(0)}
+  20%{opacity:0.4}80%{opacity:0.1}
+  100%{opacity:0;transform:translateY(-90px) scale(0.4)}
+}
+
+/* ===== TWO-COLUMN LAYOUT ===== */
+.page-wrap{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:100vh;
+}
+
+/* ===== LEFT PANEL ===== */
+.left-panel{
+  padding:48px 52px;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  position:sticky;top:0;height:100vh;
+  overflow-y:auto;overflow-x:hidden;
+}
+.left-inner{transition:transform 0.12s ease-out;transform-style:preserve-3d}
+
+/* Logo */
+.logo{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:36px;
+  animation:slideDown 0.8s cubic-bezier(.16,1,.3,1) both;
+}
+.logo-img{height:220px;width:auto;object-fit:contain}
+.logo-fallback{display:none;align-items:center;gap:10px}
+.logo-mark-box{
+  width:42px;height:42px;background:var(--teal);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(43,181,172,0.35);
+}
+.logo-wordmark{font-family:'DM Sans',sans-serif;font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-0.5px}
+.logo-wordmark em{font-style:normal;color:var(--teal)}
+
+/* Eyebrow badge */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--teal-dim);background:var(--teal-soft);
+  border:1px solid var(--border-teal);padding:7px 16px;
+  border-radius:100px;margin-bottom:20px;width:fit-content;
+  animation:slideDown 0.9s cubic-bezier(.16,1,.3,1) 0.1s both;
+}
+.eyebrow-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(43,181,172,0.4)}
+  70%{box-shadow:0 0 0 6px rgba(43,181,172,0)}
+  100%{box-shadow:0 0 0 0 rgba(43,181,172,0)}
+}
+
+/* Heading */
+.panel-heading{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,2.8vw,42px);
+  font-weight:800;line-height:1.1;
+  color:var(--navy);margin-bottom:16px;
+  letter-spacing:-0.5px;
+  animation:slideDown 1s cubic-bezier(.16,1,.3,1) 0.15s both;
+}
+.panel-heading .hl{color:var(--teal)}
+.panel-heading .hl2{color:var(--coral)}
+
+.panel-body{
+  font-size:14.5px;color:var(--text-mid);
+  line-height:1.8;max-width:390px;margin-bottom:32px;
+  animation:slideDown 1s cubic-bezier(.16,1,.3,1) 0.2s both;
+}
+
+/* Programme highlights */
+.highlights{
+  display:flex;flex-direction:column;gap:12px;margin-bottom:32px;
+  animation:slideDown 1s cubic-bezier(.16,1,.3,1) 0.25s both;
+}
+.highlight-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:14px 16px;
+  box-shadow:var(--shadow-sm);
+  transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;
+}
+.highlight-item:hover{
+  transform:translateX(4px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--border-teal);
+}
+.hi-icon{
+  width:34px;height:34px;background:var(--teal-soft);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--teal-dim);
+}
+.hi-text{flex:1}
+.hi-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.hi-desc{font-size:12px;color:var(--text-muted);line-height:1.5}
+
+/* Trust row */
+.trust-row{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  animation:slideDown 1s cubic-bezier(.16,1,.3,1) 0.3s both;
+}
+.trust-badge{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text-muted);font-weight:500}
+.trust-badge svg{color:var(--teal-dim);flex-shrink:0}
+.trust-sep{width:1px;height:14px;background:var(--border)}
+
+/* ===== RIGHT PANEL ===== */
+.right-panel{
+  padding:56px 56px 72px 52px;
+  overflow-y:auto;
+  background:var(--bg-card);
+  border-left:1px solid var(--border);
+  box-shadow:-4px 0 24px rgba(26,35,50,0.05);
+  animation:slideIn 0.8s cubic-bezier(.16,1,.3,1) 0.2s both;
+}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+.form-header{margin-bottom:28px}
+.form-title{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:800;
+  color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;
+}
+.form-subtitle{font-size:13.5px;color:var(--text-muted)}
+.form-subtitle span{color:var(--teal-dim);font-weight:600}
+
+/* ===== FORM ELEMENTS ===== */
+form{display:flex;flex-direction:column}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+
+label{font-size:12.5px;font-weight:600;color:var(--text-main);display:flex;align-items:center;gap:4px}
+.req{color:var(--teal);font-size:15px;line-height:1}
+
+input[type=text],input[type=email],input[type=tel],input[type=number],
+input[type=url],select,textarea{
+  background:var(--bg-raised);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text-main);
+  font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;
+  outline:none;width:100%;appearance:none;
+  transition:border-color 0.25s,box-shadow 0.25s,background 0.2s,transform 0.2s;
+}
+input::placeholder,textarea::placeholder{color:var(--text-soft)}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px var(--teal-glow);
+  background:var(--white);transform:translateY(-1px);
+}
+input.err,select.err,textarea.err{
+  border-color:var(--error);
+  box-shadow:0 0 0 3px rgba(217,75,75,0.1);
+}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B839A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:38px;cursor:pointer;color:var(--text-main);
+}
+select option{background:var(--white);color:var(--text-main)}
+
+/* Field error messages */
+.ferr{
+  font-size:11.5px;color:var(--error);
+  display:none;align-items:center;gap:4px;font-weight:500;
+}
+.ferr.show{display:flex}
+
+/* Section dividers */
+.sdiv{height:1px;background:var(--border);margin:4px 0 18px}
+.slbl{
+  font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:14px;padding-top:2px;
+}
+
+/* ===== EQUIPMENT CHECKBOXES ===== */
+.equip-grid{display:flex;flex-direction:column;gap:10px}
+.equip-opt{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-raised);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);padding:12px 14px;cursor:pointer;
+  transition:all 0.25s cubic-bezier(.34,1.56,.64,1);user-select:none;
+}
+.equip-opt:hover{
+  border-color:var(--teal);background:var(--teal-pale);
+  transform:translateX(4px);
+  box-shadow:0 4px 12px rgba(43,181,172,0.1);
+}
+.equip-opt input[type=checkbox]{display:none}
+.equip-opt.chk{border-color:var(--teal);background:var(--teal-soft);box-shadow:0 4px 14px rgba(43,181,172,0.14)}
+.chkbox{
+  width:18px;height:18px;border:1.5px solid var(--border);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.2s;background:var(--white);
+}
+.equip-opt.chk .chkbox{background:var(--teal);border-color:var(--teal)}
+.chkbox svg{display:none}
+.equip-opt.chk .chkbox svg{display:block}
+.equip-lbl{font-size:13px;font-weight:500;color:var(--text-main);line-height:1.3}
+.equip-icon{font-size:18px;line-height:1}
+
+/* ===== TERMS CHECKBOX ===== */
+.terms-wrap{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--bg-raised);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);padding:14px;cursor:pointer;
+  transition:border-color 0.25s,background 0.25s;
+  margin-bottom:18px;
+}
+.terms-wrap.chk{border-color:var(--teal);background:var(--teal-soft)}
+.terms-wrap input[type=checkbox]{display:none}
+.terms-chkbox{
+  width:20px;height:20px;border:1.5px solid var(--border);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;transition:all 0.2s;background:var(--white);
+}
+.terms-wrap.chk .terms-chkbox{background:var(--teal);border-color:var(--teal)}
+.terms-chkbox svg{display:none}
+.terms-wrap.chk .terms-chkbox svg{display:block}
+.terms-text{font-size:13px;color:var(--text-mid);line-height:1.6}
+.terms-text a{color:var(--teal-dim);font-weight:600;text-decoration:none}
+.terms-text a:hover{text-decoration:underline}
+.terms-wrap.err-border{border-color:var(--error) !important}
+
+/* ===== SUBMIT BUTTON ===== */
+.submit-wrap{margin-top:6px}
+.btn-sub{
+  width:100%;padding:14px 28px;
+  background:linear-gradient(135deg,var(--teal) 0%,var(--teal-dim) 100%);
+  color:var(--white);font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:700;border:none;border-radius:var(--r-sm);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all 0.3s cubic-bezier(.34,1.56,.64,1);
+  letter-spacing:0.2px;position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(43,181,172,0.3);
+}
+.btn-sub::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.12) 0%,transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.btn-sub:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 14px 36px rgba(43,181,172,0.38)}
+.btn-sub:hover::before{opacity:1}
+.btn-sub:active{transform:translateY(-1px) scale(1)}
+.btn-sub:disabled{opacity:0.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-arrow{transition:transform 0.25s}
+.btn-sub:hover .btn-arrow{transform:translateX(5px)}
+
+/* Loading spinner inside button */
+.spinner{
+  width:18px;height:18px;
+  border:2.5px solid rgba(255,255,255,0.35);
+  border-top-color:white;border-radius:50%;
+  animation:spin 0.7s linear infinite;display:none;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-sub.loading .spinner{display:block}
+.btn-sub.loading .btn-txt,.btn-sub.loading .btn-arrow{display:none}
+
+/* Privacy note */
+.privacy{
+  margin-top:12px;font-size:11.5px;color:var(--text-muted);
+  text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.privacy svg{color:var(--teal-dim);flex-shrink:0}
+
+/* ===== SUCCESS STATE ===== */
+.success{
+  display:none;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  padding:80px 24px;min-height:500px;
+}
+.success.show{display:flex;animation:fadeUp 0.6s cubic-bezier(.16,1,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.success-ring{
+  width:90px;height:90px;border-radius:50%;
+  background:var(--teal-soft);border:2px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;margin-bottom:28px;
+  box-shadow:0 0 0 8px var(--teal-pale),0 12px 32px rgba(43,181,172,0.2);
+  animation:ringPop 0.6s cubic-bezier(.34,1.56,.64,1) 0.2s both;
+}
+@keyframes ringPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:12px}
+.success-body{font-size:15px;color:var(--text-mid);max-width:360px;line-height:1.75}
+.success-sub{margin-top:16px;font-size:13px;color:var(--text-muted)}
+.success-sub a{color:var(--teal-dim);text-decoration:none;font-weight:600}
+.redirect-note{
+  margin-top:24px;padding:14px 20px;
+  background:var(--teal-soft);border:1px solid var(--border-teal);
+  border-radius:var(--r-md);font-size:13px;color:var(--teal-dim);font-weight:600;
+  display:flex;align-items:center;gap:8px;
+}
+.redirect-countdown{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:800;
+  color:var(--teal);min-width:28px;text-align:center;
+}
+
+/* ===== TOAST NOTIFICATION ===== */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--navy);border-radius:100px;padding:12px 24px;
+  font-size:13.5px;font-weight:500;color:var(--white);
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 32px rgba(26,35,50,0.25);
+  transition:transform 0.4s cubic-bezier(.34,1.56,.64,1),opacity 0.3s;
+  opacity:0;z-index:1000;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.toast.err-toast .toast-dot{background:#FF6B6B}
+
+/* ===== ENTRY ANIMATIONS ===== */
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== RESPONSIVE — TABLET & MOBILE ===== */
+@media(max-width:900px){
+  .page-wrap{grid-template-columns:1fr}
+  .left-panel{position:relative;height:auto;padding:36px 24px 28px}
+  .right-panel{padding:28px 24px 56px;border-left:none;border-top:1px solid var(--border)}
+  .panel-body{margin-bottom:0}
+  .highlights{display:none} /* hide on mobile to keep left panel compact */
+}
+@media(max-width:560px){
+  .form-row{grid-template-columns:1fr}
+  .panel-heading{font-size:26px}
+  .toast{white-space:normal;text-align:center;max-width:90vw;border-radius:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="scene-bg">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="particles" id="particles"></div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toastMsg">Sending…</span>
+</div>
+
+<div class="page-wrap">
+
+<!-- ===== LEFT PANEL — Branding & Programme Info ===== -->
+<aside class="left-panel" id="leftPanel">
+  <div class="left-inner" id="leftInner">
+
+    <!-- Logo: loads logo.png; falls back to text mark if image not found -->
+    <div class="logo">
+      <img src="logo.png" alt="StatsPack" class="logo-img"
+        onerror="this.onerror=null;this.style.display='none';document.getElementById('lf').style.display='flex'"/>
+      <div class="logo-fallback" id="lf">
+        <div class="logo-mark-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="14" width="5" height="8" rx="1.5" fill="white"/>
+            <rect x="9.5" y="9" width="5" height="13" rx="1.5" fill="white"/>
+            <rect x="17" y="3" width="5" height="19" rx="1.5" fill="white"/>
+            <path d="M4.5 12l7.5-5.5 7.5-4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="logo-wordmark"><em>STATS</em>PACK</span>
+      </div>
+    </div>
+
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Registration Open</span>
+
+    <h1 class="panel-heading">
+      Africa Data<br/>Analytics<br/><span class="hl">Training</span> <span class="hl2">Program.</span>
+    </h1>
+
+    <p class="panel-body">
+      Build in-demand data skills with Africa's leading analytics training programme. Practical, hands-on learning designed for the African market — delivered by experts, accessible from anywhere.
+    </p>
+
+    <div class="highlights">
+      <div class="highlight-item">
+        <div class="hi-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L2 6v6c0 3 2.7 5.6 7 6.5C13.3 17.6 16 15 16 12V6L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="hi-text">
+          <div class="hi-title">Industry-Certified Curriculum</div>
+          <div class="hi-desc">Covering Excel, SQL, Python, Power BI &amp; machine learning fundamentals</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="hi-text">
+          <div class="hi-title">Flexible Online Learning</div>
+          <div class="hi-desc">Self-paced with live mentorship sessions — study from any device</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="hi-text">
+          <div class="hi-title">Certificate Upon Completion</div>
+          <div class="hi-desc">Recognised across Southern &amp; Eastern African employers</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 16c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="hi-text">
+          <div class="hi-title">Community &amp; Career Support</div>
+          <div class="hi-desc">Join a growing network of African data professionals</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3.5v4c0 3 2.2 5.6 5 6.3C9.8 13.1 12 10.5 12 7.5v-4L7 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        Secure &amp; Private
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 7l2 2 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Africa-Focused
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2a5 5 0 100 10A5 5 0 007 2zM7 5v2.5l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Fast Enrolment
+      </div>
+    </div>
+
+  </div>
+</aside>
+
+<!-- ===== RIGHT PANEL — Registration Form ===== -->
+<main class="right-panel" id="rightPanel">
+  <div class="form-header">
+    <h2 class="form-title">Programme Registration</h2>
+    <p class="form-subtitle">Fields marked with <span>•</span> are required.</p>
+  </div>
+
+  <!-- Registration form -->
+  <form id="regForm" novalidate>
+
+    <!-- ── PERSONAL INFORMATION ── -->
+    <p class="slbl">Personal Information</p>
+
+    <div class="field">
+      <label for="name">Full Name <span class="req">•</span></label>
+      <input type="text" id="name" placeholder="Your full name" autocomplete="name"/>
+      <span class="ferr" id="ename">Full name is required.</span>
+    </div>
+
+    <div class="form-row">
+      <div class="field">
+        <label for="email">Email Address <span class="req">•</span></label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
+        <span class="ferr" id="eemail">A valid email is required.</span>
+      </div>
+      <div class="field">
+        <!-- Phone with country code prompt in placeholder -->
+        <label for="phone">Phone Number <span class="req">•</span></label>
+        <input type="tel" id="phone" placeholder="+266 5000 0000" autocomplete="tel"/>
+        <span class="ferr" id="ephone">Phone number with country code is required.</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field">
+        <label for="country">Country <span class="req">•</span></label>
+        <select id="country">
+          <option value="" disabled selected>Select country…</option>
+          <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Angola</option><option>Argentina</option><option>Armenia</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahrain</option><option>Bangladesh</option><option>Belarus</option><option>Belgium</option><option>Belize</option><option>Benin</option><option>Bhutan</option><option>Bolivia</option><option>Botswana</option><option>Brazil</option><option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option><option>Cambodia</option><option>Cameroon</option><option>Canada</option><option>Central African Republic</option><option>Chad</option><option>Chile</option><option>China</option><option>Colombia</option><option>Comoros</option><option>Democratic Republic of the Congo</option><option>Republic of the Congo</option><option>Costa Rica</option><option>Croatia</option><option>Cuba</option><option>Czech Republic</option><option>Denmark</option><option>Djibouti</option><option>Dominican Republic</option><option>Ecuador</option><option>Egypt</option><option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option><option>Estonia</option><option>Ethiopia</option><option>Fiji</option><option>Finland</option><option>France</option><option>Gabon</option><option>The Gambia</option><option>Georgia</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Guatemala</option><option>Guinea</option><option>Guinea-Bissau</option><option>Guyana</option><option>Haiti</option><option>Honduras</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option><option>Latvia</option><option>Lebanon</option><option>Lesotho</option><option>Liberia</option><option>Libya</option><option>Lithuania</option><option>Luxembourg</option><option>Madagascar</option><option>Malawi</option><option>Malaysia</option><option>Mali</option><option>Malta</option><option>Mauritania</option><option>Mauritius</option><option>Mexico</option><option>Moldova</option><option>Mongolia</option><option>Montenegro</option><option>Morocco</option><option>Mozambique</option><option>Myanmar</option><option>Namibia</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Niger</option><option>Nigeria</option><option>North Korea</option><option>Norway</option><option>Oman</option><option>Pakistan</option><option>Palestine</option><option>Panama</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option><option>Sierra Leone</option><option>Singapore</option><option>Slovakia</option><option>Slovenia</option><option>Somalia</option><option>South Africa</option><option>South Korea</option><option>South Sudan</option><option>Spain</option><option>Sri Lanka</option><option>Sudan</option><option>Swaziland</option><option>Sweden</option><option>Switzerland</option><option>Syria</option><option>Taiwan</option><option>Tanzania</option><option>Thailand</option><option>Togo</option><option>Trinidad and Tobago</option><option>Tunisia</option><option>Turkey</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zambia</option><option>Zimbabwe</option>
+        </select>
+        <span class="ferr" id="ecountry">Please select your country.</span>
+      </div>
+      <div class="field">
+        <label for="age">Age <span class="req">•</span></label>
+        <input type="number" id="age" placeholder="e.g. 25" min="14" max="99"/>
+        <span class="ferr" id="eage">Please enter your age (14–99).</span>
+      </div>
+    </div>
+
+    <div class="sdiv"></div>
+
+    <!-- ── BACKGROUND ── -->
+    <p class="slbl">Background</p>
+
+    <div class="field">
+      <label for="education">Highest Education Level <span class="req">•</span></label>
+      <select id="education">
+        <option value="" disabled selected>Select your education level…</option>
+        <option>High School / Secondary School</option>
+        <option>Vocational / Technical Certificate</option>
+        <option>Diploma</option>
+        <option>Bachelor's Degree</option>
+        <option>Postgraduate Diploma</option>
+        <option>Master's Degree</option>
+        <option>Doctorate / PhD</option>
+        <option>Other</option>
+      </select>
+      <span class="ferr" id="eeducation">Please select your education level.</span>
+    </div>
+
+    <div class="field">
+      <label for="occupation">Occupation <span class="req">•</span></label>
+      <input type="text" id="occupation" placeholder="e.g. Accountant, Student, Engineer…"/>
+      <span class="ferr" id="eoccupation">Please enter your occupation.</span>
+    </div>
+
+    <div class="field">
+      <label for="experience">Previous Data Analytics Experience <span class="req">•</span></label>
+      <select id="experience">
+        <option value="" disabled selected>Have you worked with data before?</option>
+        <option value="Yes">Yes — I have some experience</option>
+        <option value="No">No — I am a complete beginner</option>
+      </select>
+      <span class="ferr" id="eexperience">Please select your experience level.</span>
+    </div>
+
+    <div class="sdiv"></div>
+
+    <!-- ── EQUIPMENT ── -->
+    <p class="slbl">Equipment Available</p>
+    <div class="field">
+      <label>What do you have access to? (select all that apply)</label>
+      <div class="equip-grid">
+
+        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-internet">
+          <input type="checkbox" name="equipment" value="Internet Access"/>
+          <span class="chkbox">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="equip-icon">🌐</span>
+          <span class="equip-lbl">Internet Access</span>
+        </label>
+
+        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-android">
+          <input type="checkbox" name="equipment" value="Android Phone / Tablet"/>
+          <span class="chkbox">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="equip-icon">📱</span>
+          <span class="equip-lbl">Android Phone / Tablet</span>
+        </label>
+
+        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-laptop">
+          <input type="checkbox" name="equipment" value="Laptop / Computer"/>
+          <span class="chkbox">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="equip-icon">💻</span>
+          <span class="equip-lbl">Laptop / Computer</span>
+        </label>
+
+      </div>
+    </div>
+
+    <div class="sdiv"></div>
+
+    <!-- ── TERMS ── -->
+    <label class="terms-wrap" id="termsWrap" tabindex="0" role="checkbox" aria-checked="false">
+      <input type="checkbox" id="terms"/>
+      <span class="terms-chkbox">
+        <svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="terms-text">
+        I agree to the <a href="#" onclick="return false;">Terms and Conditions</a> and understand that submitting this form will direct me to complete payment via PayPal to confirm my enrolment. <span class="req">•</span>
+      </span>
+    </label>
+    <span class="ferr" id="eterms" style="margin-top:-10px;margin-bottom:14px">You must agree to the terms to continue.</span>
+
+    <!-- Submit button -->
+    <div class="submit-wrap">
+      <button type="submit" class="btn-sub" id="subBtn">
+        <span class="btn-txt">Register &amp; Proceed to Payment</span>
+        <div class="spinner"></div>
+        <svg class="btn-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3.75 9h10.5M9.75 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="privacy">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L2 3v3c0 2.5 1.8 4.7 4 5.4C8.2 10.7 10 8.5 10 6V3L6 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        Your data is secure. You will be redirected to PayPal to complete payment.
+      </p>
+    </div>
+
+  </form>
+
+  <!-- ── SUCCESS STATE (shown after EmailJS send, before PayPal redirect) ── -->
+  <div class="success" id="successState">
+    <div class="success-ring">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M8 18l7 7 13-13" stroke="#2BB5AC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 class="success-title">Registration Received!</h3>
+    <p class="success-body">
+      Thank you for registering for the StatsPack Africa Data Analytics Training Program.
+      You will now be redirected to PayPal to complete your payment and confirm your spot.
+    </p>
+    <p class="success-sub">Questions? Email <a href="mailto:inquiries@statspackbw.com">inquiries@statspackbw.com</a></p>
+    <div class="redirect-note">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      Redirecting to PayPal in <span class="redirect-countdown" id="countdown">5</span>s…
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+/* ============================================================
+  CONFIGURATION — update these values as needed
+  ============================================================ */
+
+// ── EmailJS credentials (keep your existing service ID and public key) ──
+const EMAILJS_PUBLIC_KEY  = 'fNgN54h5F3Ihvu4SW';       // Your EmailJS public key
+const EMAILJS_SERVICE_ID  = 'service_89uektn';          // Your EmailJS service ID
+const EMAILJS_TEMPLATE_ID = 'template_ke5cxe6';         // ← Training programme template ID
+
+// ── PayPal payment URL — replace with your actual PayPal.me or checkout link ──
+const PAYPAL_URL = 'https://www.paypal.com/paypalme/YOURPAYPALHANDLE'; // ← REPLACE THIS
+
+/* ============================================================
+  EMAILJS INIT — initialise with your public key
+  ============================================================ */
+(function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
+
+/* ============================================================
+  PARTICLES — animated background dots
+  ============================================================ */
+(function(){
+  const c = document.getElementById('particles');
+  for(let i = 0; i < 16; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random() * 3 + 2;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;animation-delay:${Math.random()*7}s;animation-duration:${Math.random()*4+5}s;`;
+    c.appendChild(p);
+  }
+})();
+
+/* ============================================================
+  3D TILT — left panel mouse parallax
+  ============================================================ */
+(function(){
+  const panel = document.getElementById('leftPanel');
+  const inner = document.getElementById('leftInner');
+  panel.addEventListener('mousemove', e => {
+    const r = panel.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width  - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
+    inner.style.transform = `rotateY(${x*7}deg) rotateX(${-y*5}deg)`;
+  });
+  panel.addEventListener('mouseleave', () => { inner.style.transform = 'rotateY(0) rotateX(0)'; });
+})();
+
+/* ============================================================
+  GEO-DETECT — auto-select country from IP
+  ============================================================ */
+(async function(){
+  try{
+    const r = await fetch('https://ipapi.co/json/');
+    const d = await r.json();
+    if(d.country_name){
+      const opts = [...document.getElementById('country').options];
+      for(const o of opts){
+        if(o.value.toLowerCase() === d.country_name.toLowerCase()){
+          document.getElementById('country').value = o.value;
+          break;
+        }
+      }
+    }
+  } catch(e){}
+})();
+
+/* ============================================================
+  EQUIPMENT CHECKBOX TOGGLES — visual + ARIA state
+  ============================================================ */
+document.querySelectorAll('.equip-opt').forEach(lbl => {
+  const cb = lbl.querySelector('input[type=checkbox]');
+  // Toggle visual "checked" class and ARIA attribute on change
+  cb.addEventListener('change', () => {
+    lbl.classList.toggle('chk', cb.checked);
+    lbl.setAttribute('aria-checked', cb.checked);
+  });
+  // Allow keyboard activation with Space or Enter
+  lbl.addEventListener('keydown', e => {
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); cb.click(); }
+  });
+});
+
+/* ============================================================
+  TERMS CHECKBOX TOGGLE
+  ============================================================ */
+const termsWrap = document.getElementById('termsWrap');
+const termsInput = document.getElementById('terms');
+termsWrap.addEventListener('click', () => {
+  termsInput.checked = !termsInput.checked;
+  termsWrap.classList.toggle('chk', termsInput.checked);
+  termsWrap.setAttribute('aria-checked', termsInput.checked);
+  // Clear error when user checks it
+  if(termsInput.checked){ showErr('terms', false); termsWrap.classList.remove('err-border'); }
+});
+termsWrap.addEventListener('keydown', e => {
+  if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); termsWrap.click(); }
+});
+
+/* ============================================================
+  VALIDATION HELPERS
+  ============================================================ */
+
+// Show or hide a field's error message and error styling
+function showErr(id, show){
+  const errEl = document.getElementById('e' + id);
+  const inpEl = document.getElementById(id);
+  if(errEl) errEl.classList.toggle('show', show);
+  if(inpEl) inpEl.classList.toggle('err', show);
+}
+
+// Clear error on user input — attach to all validated fields
+['name','email','phone','country','age','education','occupation','experience'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el){
+    el.addEventListener('input',  () => showErr(id, false));
+    el.addEventListener('change', () => showErr(id, false));
+  }
+});
+
+// Validate all required fields; returns true if all pass
+function validate(){
+  let ok = true;
+
+  const rules = [
+    { id: 'name',       test: v => v.trim().length > 0 },
+    { id: 'email',      test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+    { id: 'phone',      test: v => v.trim().length >= 7 },
+    { id: 'country',    test: v => v !== '' },
+    { id: 'age',        test: v => { const n = parseInt(v); return !isNaN(n) && n >= 14 && n <= 99; } },
+    { id: 'education',  test: v => v !== '' },
+    { id: 'occupation', test: v => v.trim().length > 0 },
+    { id: 'experience', test: v => v !== '' },
+  ];
+
+  rules.forEach(({ id, test }) => {
+    const el = document.getElementById(id);
+    const pass = test(el.value);
+    showErr(id, !pass);
+    if(!pass) ok = false;
+  });
+
+  // Terms checkbox validation
+  if(!termsInput.checked){
+    showErr('terms', true);
+    termsWrap.classList.add('err-border');
+    ok = false;
+  }
+
+  return ok;
+}
+
+/* ============================================================
+  TOAST NOTIFICATIONS
+  ============================================================ */
+let toastTimer;
+function showToast(msg, isErr = false){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.toggle('err-toast', isErr);
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+/* ============================================================
+  COUNTDOWN THEN REDIRECT — used after successful submission
+  ============================================================ */
+function startRedirectCountdown(seconds = 5){
+  const el = document.getElementById('countdown');
+  el.textContent = seconds;
+  const iv = setInterval(() => {
+    seconds--;
+    el.textContent = seconds;
+    if(seconds <= 0){
+      clearInterval(iv);
+      window.location.href = PAYPAL_URL; // redirect to PayPal
+    }
+  }, 1000);
+}
+
+/* ============================================================
+  FORM SUBMISSION
+  — Prevents duplicate submissions with isSubmitting flag
+  — Validates all fields
+  — Gathers equipment checkboxes into comma-separated string
+  — Saves form data to localStorage (available on PayPal return)
+  — Sends via EmailJS
+  — Shows success state and starts PayPal redirect countdown
+  ============================================================ */
+let isSubmitting = false; // duplicate-submission guard
+
+document.getElementById('regForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Prevent duplicate submissions
+  if(isSubmitting) return;
+
+  // Run validation; stop if any field fails
+  if(!validate()) return;
+
+  // Lock form
+  isSubmitting = true;
+  const btn = document.getElementById('subBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  showToast('Submitting your registration…');
+
+  // Gather equipment checkboxes → comma-separated string (or 'None selected')
+  const equipment = [...document.querySelectorAll('input[name=equipment]:checked')]
+    .map(c => c.value)
+    .join(', ') || 'None selected';
+
+  // Build EmailJS template params — variable names match {{...}} in your template
+  const params = {
+    name:        document.getElementById('name').value.trim(),
+    email:       document.getElementById('email').value.trim(),
+    phone:       document.getElementById('phone').value.trim(),
+    country:     document.getElementById('country').value,
+    age:         document.getElementById('age').value.trim(),
+    education:   document.getElementById('education').value,
+    occupation:  document.getElementById('occupation').value.trim(),
+    experience:  document.getElementById('experience').value,
+    equipment:   equipment,                               // e.g. "Internet Access, Laptop / Computer"
+    reply_to:    document.getElementById('email').value.trim(),
+  };
+
+  // Save registration data to localStorage so it's accessible after PayPal redirect
+  try {
+    localStorage.setItem('statspack_registration', JSON.stringify({
+      ...params,
+      submitted_at: new Date().toISOString(),
+    }));
+  } catch(storageErr) {
+    // localStorage not critical — continue even if it fails
+    console.warn('localStorage unavailable:', storageErr);
+  }
+
+  try {
+    // Send to EmailJS using your service, training template, and params
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+
+    // Hide form, show success message
+    document.getElementById('regForm').style.display = 'none';
+    document.getElementById('successState').classList.add('show');
+    showToast('Registration successful! Redirecting to payment…');
+
+    // Begin countdown → PayPal redirect
+    startRedirectCountdown(5);
+
+  } catch(err) {
+    // EmailJS send failed — unlock form and show error
+    console.error('EmailJS error:', err);
+    showToast('Something went wrong. Please email inquiries@statspackbw.com directly.', true);
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    isSubmitting = false; // allow retry
+  }
+});
+</script>
+</body>
+</html>
