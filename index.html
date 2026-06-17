@@ -8,9 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
 
-<!-- ============================================================
-  EmailJS SDK v4 — handles sending form data to your email
-============================================================ -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style>
@@ -259,32 +256,6 @@ select option{background:var(--white);color:var(--text-main)}
   color:var(--text-muted);margin-bottom:14px;padding-top:2px;
 }
 
-/* ===== EQUIPMENT CHECKBOXES ===== */
-.equip-grid{display:flex;flex-direction:column;gap:10px}
-.equip-opt{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg-raised);border:1.5px solid var(--border);
-  border-radius:var(--r-sm);padding:12px 14px;cursor:pointer;
-  transition:all 0.25s cubic-bezier(.34,1.56,.64,1);user-select:none;
-}
-.equip-opt:hover{
-  border-color:var(--teal);background:var(--teal-pale);
-  transform:translateX(4px);
-  box-shadow:0 4px 12px rgba(43,181,172,0.1);
-}
-.equip-opt input[type=checkbox]{display:none}
-.equip-opt.chk{border-color:var(--teal);background:var(--teal-soft);box-shadow:0 4px 14px rgba(43,181,172,0.14)}
-.chkbox{
-  width:18px;height:18px;border:1.5px solid var(--border);
-  border-radius:4px;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all 0.2s;background:var(--white);
-}
-.equip-opt.chk .chkbox{background:var(--teal);border-color:var(--teal)}
-.chkbox svg{display:none}
-.equip-opt.chk .chkbox svg{display:block}
-.equip-lbl{font-size:13px;font-weight:500;color:var(--text-main);line-height:1.3}
-.equip-icon{font-size:18px;line-height:1}
-
 /* ===== TERMS CHECKBOX ===== */
 .terms-wrap{
   display:flex;align-items:flex-start;gap:10px;
@@ -370,16 +341,6 @@ select option{background:var(--white);color:var(--text-main)}
 .success-body{font-size:15px;color:var(--text-mid);max-width:360px;line-height:1.75}
 .success-sub{margin-top:16px;font-size:13px;color:var(--text-muted)}
 .success-sub a{color:var(--teal-dim);text-decoration:none;font-weight:600}
-.redirect-note{
-  margin-top:24px;padding:14px 20px;
-  background:var(--teal-soft);border:1px solid var(--border-teal);
-  border-radius:var(--r-md);font-size:13px;color:var(--teal-dim);font-weight:600;
-  display:flex;align-items:center;gap:8px;
-}
-.redirect-countdown{
-  font-family:'Playfair Display',serif;font-size:22px;font-weight:800;
-  color:var(--teal);min-width:28px;text-align:center;
-}
 
 /* ===== TOAST NOTIFICATION ===== */
 .toast{
@@ -408,7 +369,7 @@ select option{background:var(--white);color:var(--text-main)}
   .left-panel{position:relative;height:auto;padding:36px 24px 28px}
   .right-panel{padding:28px 24px 56px;border-left:none;border-top:1px solid var(--border)}
   .panel-body{margin-bottom:0}
-  .highlights{display:none} /* hide on mobile to keep left panel compact */
+  .highlights{display:none}
 }
 @media(max-width:560px){
   .form-row{grid-template-columns:1fr}
@@ -435,11 +396,10 @@ select option{background:var(--white);color:var(--text-main)}
 
 <div class="page-wrap">
 
-<!-- ===== LEFT PANEL — Branding & Programme Info ===== -->
+<!-- ===== LEFT PANEL ===== -->
 <aside class="left-panel" id="leftPanel">
   <div class="left-inner" id="leftInner">
 
-    <!-- Logo: loads logo.png; falls back to text mark if image not found -->
     <div class="logo">
       <img src="logo.png" alt="StatsPack" class="logo-img"
         onerror="this.onerror=null;this.style.display='none';document.getElementById('lf').style.display='flex'"/>
@@ -532,7 +492,6 @@ select option{background:var(--white);color:var(--text-main)}
     <p class="form-subtitle">Fields marked with <span>•</span> are required.</p>
   </div>
 
-  <!-- Registration form -->
   <form id="regForm" novalidate>
 
     <!-- ── PERSONAL INFORMATION ── -->
@@ -551,7 +510,6 @@ select option{background:var(--white);color:var(--text-main)}
         <span class="ferr" id="eemail">A valid email is required.</span>
       </div>
       <div class="field">
-        <!-- Phone with country code prompt in placeholder -->
         <label for="phone">Phone Number <span class="req">•</span></label>
         <input type="tel" id="phone" placeholder="+266 5000 0000" autocomplete="tel"/>
         <span class="ferr" id="ephone">Phone number with country code is required.</span>
@@ -602,51 +560,13 @@ select option{background:var(--white);color:var(--text-main)}
     </div>
 
     <div class="field">
-      <label for="experience">Previous Data Analytics Experience <span class="req">•</span></label>
+      <label for="experience">Previous Sales Experience <span class="req">•</span></label>
       <select id="experience">
-        <option value="" disabled selected>Have you worked with data before?</option>
+        <option value="" disabled selected>Have you worked in sales before?</option>
         <option value="Yes">Yes — I have some experience</option>
         <option value="No">No — I am a complete beginner</option>
       </select>
       <span class="ferr" id="eexperience">Please select your experience level.</span>
-    </div>
-
-    <div class="sdiv"></div>
-
-    <!-- ── EQUIPMENT ── -->
-    <p class="slbl">Equipment Available</p>
-    <div class="field">
-      <label>What do you have access to? (select all that apply)</label>
-      <div class="equip-grid">
-
-        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-internet">
-          <input type="checkbox" name="equipment" value="Internet Access"/>
-          <span class="chkbox">
-            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span class="equip-icon">🌐</span>
-          <span class="equip-lbl">Internet Access</span>
-        </label>
-
-        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-android">
-          <input type="checkbox" name="equipment" value="Android Phone / Tablet"/>
-          <span class="chkbox">
-            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span class="equip-icon">📱</span>
-          <span class="equip-lbl">Android Phone / Tablet</span>
-        </label>
-
-        <label class="equip-opt" tabindex="0" role="checkbox" aria-checked="false" id="eq-laptop">
-          <input type="checkbox" name="equipment" value="Laptop / Computer"/>
-          <span class="chkbox">
-            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <span class="equip-icon">💻</span>
-          <span class="equip-lbl">Laptop / Computer</span>
-        </label>
-
-      </div>
     </div>
 
     <div class="sdiv"></div>
@@ -658,7 +578,7 @@ select option{background:var(--white);color:var(--text-main)}
         <svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
       <span class="terms-text">
-        I agree to the <a href="#" onclick="return false;">Terms and Conditions</a> and understand that submitting this form will direct me to complete payment via PayPal to confirm my enrolment. <span class="req">•</span>
+        I agree to the <a href="#" onclick="return false;">Terms and Conditions</a> and confirm that the information I have provided is accurate. <span class="req">•</span>
       </span>
     </label>
     <span class="ferr" id="eterms" style="margin-top:-10px;margin-bottom:14px">You must agree to the terms to continue.</span>
@@ -666,7 +586,7 @@ select option{background:var(--white);color:var(--text-main)}
     <!-- Submit button -->
     <div class="submit-wrap">
       <button type="submit" class="btn-sub" id="subBtn">
-        <span class="btn-txt">Register &amp; Proceed to Payment</span>
+        <span class="btn-txt">Submit Registration</span>
         <div class="spinner"></div>
         <svg class="btn-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path d="M3.75 9h10.5M9.75 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -674,13 +594,13 @@ select option{background:var(--white);color:var(--text-main)}
       </button>
       <p class="privacy">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L2 3v3c0 2.5 1.8 4.7 4 5.4C8.2 10.7 10 8.5 10 6V3L6 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-        Your data is secure. You will be redirected to PayPal to complete payment.
+        Your data is secure and will be kept confidential.
       </p>
     </div>
 
   </form>
 
-  <!-- ── SUCCESS STATE (shown after EmailJS send, before PayPal redirect) ── -->
+  <!-- ── SUCCESS STATE ── -->
   <div class="success" id="successState">
     <div class="success-ring">
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -690,13 +610,9 @@ select option{background:var(--white);color:var(--text-main)}
     <h3 class="success-title">Registration Received!</h3>
     <p class="success-body">
       Thank you for registering for the StatsPack Africa Data Analytics Training Program.
-      You will now be redirected to PayPal to complete your payment and confirm your spot.
+      We will be in touch shortly with next steps.
     </p>
     <p class="success-sub">Questions? Email <a href="mailto:inquiries@statspackbw.com">inquiries@statspackbw.com</a></p>
-    <div class="redirect-note">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
-      Redirecting to PayPal in <span class="redirect-countdown" id="countdown">5</span>s…
-    </div>
   </div>
 
 </main>
@@ -704,24 +620,19 @@ select option{background:var(--white);color:var(--text-main)}
 
 <script>
 /* ============================================================
-  CONFIGURATION — update these values as needed
+  CONFIGURATION
   ============================================================ */
-
-// ── EmailJS credentials (keep your existing service ID and public key) ──
-const EMAILJS_PUBLIC_KEY  = 'fNgN54h5F3Ihvu4SW';       // Your EmailJS public key
-const EMAILJS_SERVICE_ID  = 'service_89uektn';          // Your EmailJS service ID
-const EMAILJS_TEMPLATE_ID = 'template_ke5cxe6';         // ← Training programme template ID
-
-// ── PayPal payment URL — replace with your actual PayPal.me or checkout link ──
-const PAYPAL_URL = 'https://www.paypal.com/paypalme/YOURPAYPALHANDLE'; // ← REPLACE THIS
+const EMAILJS_PUBLIC_KEY  = 'fNgN54h5F3Ihvu4SW';
+const EMAILJS_SERVICE_ID  = 'service_89uektn';
+const EMAILJS_TEMPLATE_ID = 'template_ke5cxe6';
 
 /* ============================================================
-  EMAILJS INIT — initialise with your public key
+  EMAILJS INIT
   ============================================================ */
 (function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
 
 /* ============================================================
-  PARTICLES — animated background dots
+  PARTICLES
   ============================================================ */
 (function(){
   const c = document.getElementById('particles');
@@ -735,7 +646,7 @@ const PAYPAL_URL = 'https://www.paypal.com/paypalme/YOURPAYPALHANDLE'; // ← RE
 })();
 
 /* ============================================================
-  3D TILT — left panel mouse parallax
+  3D TILT
   ============================================================ */
 (function(){
   const panel = document.getElementById('leftPanel');
@@ -750,7 +661,7 @@ const PAYPAL_URL = 'https://www.paypal.com/paypalme/YOURPAYPALHANDLE'; // ← RE
 })();
 
 /* ============================================================
-  GEO-DETECT — auto-select country from IP
+  GEO-DETECT
   ============================================================ */
 (async function(){
   try{
@@ -769,22 +680,6 @@ const PAYPAL_URL = 'https://www.paypal.com/paypalme/YOURPAYPALHANDLE'; // ← RE
 })();
 
 /* ============================================================
-  EQUIPMENT CHECKBOX TOGGLES — visual + ARIA state
-  ============================================================ */
-document.querySelectorAll('.equip-opt').forEach(lbl => {
-  const cb = lbl.querySelector('input[type=checkbox]');
-  // Toggle visual "checked" class and ARIA attribute on change
-  cb.addEventListener('change', () => {
-    lbl.classList.toggle('chk', cb.checked);
-    lbl.setAttribute('aria-checked', cb.checked);
-  });
-  // Allow keyboard activation with Space or Enter
-  lbl.addEventListener('keydown', e => {
-    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); cb.click(); }
-  });
-});
-
-/* ============================================================
   TERMS CHECKBOX TOGGLE
   ============================================================ */
 const termsWrap = document.getElementById('termsWrap');
@@ -793,7 +688,6 @@ termsWrap.addEventListener('click', () => {
   termsInput.checked = !termsInput.checked;
   termsWrap.classList.toggle('chk', termsInput.checked);
   termsWrap.setAttribute('aria-checked', termsInput.checked);
-  // Clear error when user checks it
   if(termsInput.checked){ showErr('terms', false); termsWrap.classList.remove('err-border'); }
 });
 termsWrap.addEventListener('keydown', e => {
@@ -803,8 +697,6 @@ termsWrap.addEventListener('keydown', e => {
 /* ============================================================
   VALIDATION HELPERS
   ============================================================ */
-
-// Show or hide a field's error message and error styling
 function showErr(id, show){
   const errEl = document.getElementById('e' + id);
   const inpEl = document.getElementById(id);
@@ -812,7 +704,6 @@ function showErr(id, show){
   if(inpEl) inpEl.classList.toggle('err', show);
 }
 
-// Clear error on user input — attach to all validated fields
 ['name','email','phone','country','age','education','occupation','experience'].forEach(id => {
   const el = document.getElementById(id);
   if(el){
@@ -821,7 +712,6 @@ function showErr(id, show){
   }
 });
 
-// Validate all required fields; returns true if all pass
 function validate(){
   let ok = true;
 
@@ -843,7 +733,6 @@ function validate(){
     if(!pass) ok = false;
   });
 
-  // Terms checkbox validation
   if(!termsInput.checked){
     showErr('terms', true);
     termsWrap.classList.add('err-border');
@@ -867,54 +756,22 @@ function showToast(msg, isErr = false){
 }
 
 /* ============================================================
-  COUNTDOWN THEN REDIRECT — used after successful submission
-  ============================================================ */
-function startRedirectCountdown(seconds = 5){
-  const el = document.getElementById('countdown');
-  el.textContent = seconds;
-  const iv = setInterval(() => {
-    seconds--;
-    el.textContent = seconds;
-    if(seconds <= 0){
-      clearInterval(iv);
-      window.location.href = PAYPAL_URL; // redirect to PayPal
-    }
-  }, 1000);
-}
-
-/* ============================================================
   FORM SUBMISSION
-  — Prevents duplicate submissions with isSubmitting flag
-  — Validates all fields
-  — Gathers equipment checkboxes into comma-separated string
-  — Saves form data to localStorage (available on PayPal return)
-  — Sends via EmailJS
-  — Shows success state and starts PayPal redirect countdown
   ============================================================ */
-let isSubmitting = false; // duplicate-submission guard
+let isSubmitting = false;
 
 document.getElementById('regForm').addEventListener('submit', async e => {
   e.preventDefault();
 
-  // Prevent duplicate submissions
   if(isSubmitting) return;
-
-  // Run validation; stop if any field fails
   if(!validate()) return;
 
-  // Lock form
   isSubmitting = true;
   const btn = document.getElementById('subBtn');
   btn.disabled = true;
   btn.classList.add('loading');
   showToast('Submitting your registration…');
 
-  // Gather equipment checkboxes → comma-separated string (or 'None selected')
-  const equipment = [...document.querySelectorAll('input[name=equipment]:checked')]
-    .map(c => c.value)
-    .join(', ') || 'None selected';
-
-  // Build EmailJS template params — variable names match {{...}} in your template
   const params = {
     name:        document.getElementById('name').value.trim(),
     email:       document.getElementById('email').value.trim(),
@@ -924,40 +781,22 @@ document.getElementById('regForm').addEventListener('submit', async e => {
     education:   document.getElementById('education').value,
     occupation:  document.getElementById('occupation').value.trim(),
     experience:  document.getElementById('experience').value,
-    equipment:   equipment,                               // e.g. "Internet Access, Laptop / Computer"
     reply_to:    document.getElementById('email').value.trim(),
   };
 
-  // Save registration data to localStorage so it's accessible after PayPal redirect
   try {
-    localStorage.setItem('statspack_registration', JSON.stringify({
-      ...params,
-      submitted_at: new Date().toISOString(),
-    }));
-  } catch(storageErr) {
-    // localStorage not critical — continue even if it fails
-    console.warn('localStorage unavailable:', storageErr);
-  }
-
-  try {
-    // Send to EmailJS using your service, training template, and params
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 
-    // Hide form, show success message
     document.getElementById('regForm').style.display = 'none';
     document.getElementById('successState').classList.add('show');
-    showToast('Registration successful! Redirecting to payment…');
-
-    // Begin countdown → PayPal redirect
-    startRedirectCountdown(5);
+    showToast('Registration successful!');
 
   } catch(err) {
-    // EmailJS send failed — unlock form and show error
     console.error('EmailJS error:', err);
     showToast('Something went wrong. Please email inquiries@statspackbw.com directly.', true);
     btn.disabled = false;
     btn.classList.remove('loading');
-    isSubmitting = false; // allow retry
+    isSubmitting = false;
   }
 });
 </script>
